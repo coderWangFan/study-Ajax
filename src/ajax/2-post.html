@@ -2,34 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ajax get请求</title>
+    <title>Ajax post请求</title>
     <style>
         .result {
             margin-top: 20px;
             width: 200px;
             height: 200px;
-            border: 1px solid red;
+            border: 1px solid blue;
         }
     </style>
 </head>
 <body>
-<button class="but">get请求发送</button>
 <div class="result">
 
 </div>
+
 </body>
 <script>
     //获取dom元素
-    let but = document.querySelector('.but');
     let res = document.querySelector('.result')
 
+    //添加鼠标经过事件
+    res.addEventListener('mouseover', actPost)
+
     //发送请求
-    function actGet() {
+    function actPost() {
         //创建xhr对象
         const xhr = new XMLHttpRequest();
-        //初始化，设置请求方法和url   如果要在url之后添加请求参数  后面拼接 ?a=100&b=200 ...即可
-        xhr.open('GET', 'http://localhost:8000/sever')
-        //发送请求
+        //初始化，设置请求方法和url
+        xhr.open('POST', 'http://localhost:8000/sever')
+
+        //设置请求头   请求体类型设置
+        //这是内部预定义好的
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",)
+        //设置自定义请求头
+        xhr.setRequestHeader('name',"testpost")
+
+        //发送请求 post请求参数在send中发送
+        // xhr.send('a=100&b=200')
         xhr.send();
         //事件绑定，处理服务端返回结果
         xhr.onreadystatechange = () => {
@@ -60,8 +70,7 @@
         }
     }
 
-    //添加点击事件
-    but.addEventListener('click', actGet)
+
 
 
 </script>
