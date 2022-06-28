@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5-请求超时与异常处理</title>
+    <style>
+        .result {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<button class="but">请求发送</button>
+<div class="result">
+
+</div>
+
+</body>
+<script>
+    //获取dom元素
+    let but = document.querySelector('.but');
+    let res = document.querySelector('.result')
+
+    //发送请求
+    function actGet() {
+        //创建xhr对象
+        const xhr = new XMLHttpRequest();
+        //超时设置
+        xhr.timeout=2000;
+         //超时对应回调
+        xhr.ontimeout=()=>{
+            res.innerHTML='预设为2s，已经超时了'
+        }
+        //网络异常回调
+        xhr.onerror=()=>{
+            alert('网络异常，请检查网络连接')
+        }
+
+        //初始化，设置请求方法和url   如果要在url之后添加请求参数  后面拼接 ?a=100&b=200 ...即可
+        xhr.open('GET', 'http://localhost:8000/delay')
+        //发送请求
+        xhr.send();
+        //事件绑定，处理服务端返回结果
+        xhr.onreadystatechange = () => {
+            //readyState共有5种状态，0初始值 1open调用完毕 2send调用完毕 3服务端返回部分结果 4服务端返回全部结果
+            //change事件，状态改变触发
+
+            if (xhr.readyState === 4) {
+                //表明服务端返回所有结果
+                if (xhr.status >= 200 && xhr.status <= 300) {
+                    //将返回结果展示在页面
+                    res.innerHTML = xhr.response
+                } else {
+
+                }
+            }
+        }
+    }
+
+    //添加点击事件
+    but.addEventListener('click', actGet)
+
+
+</script>
+</html>

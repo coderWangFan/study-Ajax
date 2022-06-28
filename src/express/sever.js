@@ -27,7 +27,7 @@ app.post('/sever',(request,response)=>{
     response.send('hello express--post请求')
 })
 
-
+//用于接受任意类型的请求
 app.all('/json-sever',(request,response)=>{
     //设置响应头，跨域
     response.setHeader('Access-Control-Allow-Origin','*')
@@ -42,6 +42,18 @@ app.all('/json-sever',(request,response)=>{
 
     //设置响应  send不支持对象格式
     response.send(JSON.stringify(data))
+})
+
+
+//请求延时
+app.get('/delay',(request,response)=>{
+    //设置响应头，跨域
+    response.setHeader('Access-Control-Allow-Origin','*')
+
+    //设置响应
+    setTimeout(()=>{
+        response.send('hello express--delay')
+    },3000)
 })
 
 //监听端口，启动服务

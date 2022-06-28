@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7-重复请求</title>
+</head>
+<body>
+<button class="but">请求发送</button>
+</body>
+<script>
+    //获取dom
+    const btn = document.querySelector('.but')
+
+    //定义全局xhr
+    let xhr = null;
+    //定义变量,用于控制当前是否ajax请求中
+    let isSending = false;
+
+    //发送请求
+    btn.addEventListener('click', () => {
+        //判断当前是否存在请求
+        if (isSending === true) {
+            //存在则取消请求
+            xhr.abort()
+        }
+        //创建xhr对象
+        xhr = new XMLHttpRequest();
+        //修改
+        isSending = true;
+        //初始化，设置请求方法和url   如果要在url之后添加请求参数  后面拼接 ?a=100&b=200 ...即可
+        xhr.open('GET', 'http://localhost:8000/delay')
+        //发送请求
+        xhr.send();
+        //事件绑定，处理服务端返回结果
+        xhr.onreadystatechange = () => {
+            //readyState共有5种状态，0初始值 1open调用完毕 2send调用完毕 3服务端返回部分结果 4服务端返回全部结果
+            //change事件，状态改变触发
+            if (xhr.readyState === 4) {
+                //表明服务端返回所有结果
+                isSending = false;
+            }
+        }
+    })
+
+
+</script>
+</html>

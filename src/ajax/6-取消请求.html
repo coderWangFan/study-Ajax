@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6-取消请求</title>
+</head>
+<body>
+<button class="but">请求发送</button>
+<button class="cancel">取消请求</button>
+</body>
+<script>
+    //获取dom
+    const btn = document.querySelector('.but')
+    const cancel = document.querySelector('.cancel')
+
+    //定义全局xhr
+    let xhr=null;
+
+    //发送请求
+    btn.addEventListener('click', () => {
+        //创建xhr对象
+        xhr = new XMLHttpRequest();
+        //初始化，设置请求方法和url   如果要在url之后添加请求参数  后面拼接 ?a=100&b=200 ...即可
+        xhr.open('GET', 'http://localhost:8000/delay')
+        //发送请求
+        xhr.send();
+    })
+
+    //取消请求
+     cancel.addEventListener('click',()=>{
+        xhr.abort()
+     })
+
+</script>
+</html>
