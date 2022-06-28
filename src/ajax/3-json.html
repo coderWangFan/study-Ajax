@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax json格式</title>
+    <style>
+        .result {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+<div class="result">
+
+</div>
+</body>
+
+<script>
+    //获取dom元素
+    let res = document.querySelector('.result')
+
+    //添加键盘按下事件
+    window.addEventListener('keydown', actAll)
+
+    //发送请求
+    function actAll() {
+        //创建xhr对象
+        const xhr = new XMLHttpRequest();
+
+        //设置响应格式为json对象格式
+        xhr.responseType = "json";
+
+        //初始化，设置请求方法和url
+        xhr.open('GET', 'http://localhost:8000/json-sever')
+
+        xhr.send()
+
+        //事件绑定，处理服务端返回结果
+        xhr.onreadystatechange = () => {
+            //readyState共有5种状态，0初始值 1open调用完毕 2send调用完毕 3服务端返回部分结果 4服务端返回全部结果
+            //change事件，状态改变触发
+            if (xhr.readyState === 4) {
+                //表明服务端返回所有结果
+                if (xhr.status >= 200 && xhr.status <= 300) {
+                    //再判断一次状态码
+                    //将返回结果展示在页面
+                    res.innerHTML = xhr.response.name+'-------'+xhr.response.task
+                } else {
+
+                }
+            }
+        }
+    }
+</script>
+
+</html>
